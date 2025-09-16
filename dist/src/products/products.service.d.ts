@@ -1,0 +1,375 @@
+import { PrismaService } from '../prisma/prisma.service';
+import { CreateProductDto } from './dto/create-product.dto';
+import { UpdateProductDto } from './dto/update-product.dto';
+import { ImageUploadService } from '../upload/image-upload.service';
+export declare class ProductsService {
+    private prisma;
+    private imageUploadService;
+    constructor(prisma: PrismaService, imageUploadService: ImageUploadService);
+    create(createProductDto: CreateProductDto, sellerId: string): Promise<{
+        images: any;
+        category: {
+            name: string;
+            id: string;
+            createdAt: Date;
+            updatedAt: Date;
+            description: string | null;
+            imageUrl: string | null;
+            parentId: string | null;
+            slug: string;
+        } | null;
+        seller: {
+            email: string;
+            firstName: string;
+            lastName: string;
+            id: string;
+        };
+        name: string;
+        rejectionReason: string | null;
+        id: string;
+        status: string;
+        createdAt: Date;
+        updatedAt: Date;
+        reviewedBy: string | null;
+        reviewedAt: Date | null;
+        description: string | null;
+        price: number;
+        stock: number;
+        categoryId: string | null;
+        approvalStatus: import("@prisma/client").$Enums.ProductApprovalStatus;
+        sellerId: string;
+    }>;
+    findAll(sellerId?: string): Promise<{
+        images: any;
+        category: {
+            name: string;
+            id: string;
+            createdAt: Date;
+            updatedAt: Date;
+            description: string | null;
+            imageUrl: string | null;
+            parentId: string | null;
+            slug: string;
+        } | null;
+        seller: {
+            email: string;
+            firstName: string;
+            lastName: string;
+            id: string;
+        };
+        name: string;
+        rejectionReason: string | null;
+        id: string;
+        status: string;
+        createdAt: Date;
+        updatedAt: Date;
+        reviewedBy: string | null;
+        reviewedAt: Date | null;
+        description: string | null;
+        price: number;
+        stock: number;
+        categoryId: string | null;
+        approvalStatus: import("@prisma/client").$Enums.ProductApprovalStatus;
+        sellerId: string;
+    }[]>;
+    findOne(id: string, sellerId?: string): Promise<{
+        images: any;
+        category: {
+            name: string;
+            id: string;
+            createdAt: Date;
+            updatedAt: Date;
+            description: string | null;
+            imageUrl: string | null;
+            parentId: string | null;
+            slug: string;
+        } | null;
+        seller: {
+            email: string;
+            firstName: string;
+            lastName: string;
+            id: string;
+        };
+        name: string;
+        rejectionReason: string | null;
+        id: string;
+        status: string;
+        createdAt: Date;
+        updatedAt: Date;
+        reviewedBy: string | null;
+        reviewedAt: Date | null;
+        description: string | null;
+        price: number;
+        stock: number;
+        categoryId: string | null;
+        approvalStatus: import("@prisma/client").$Enums.ProductApprovalStatus;
+        sellerId: string;
+    }>;
+    update(id: string, updateProductDto: UpdateProductDto, sellerId: string): Promise<{
+        images: any;
+        category: {
+            name: string;
+            id: string;
+            createdAt: Date;
+            updatedAt: Date;
+            description: string | null;
+            imageUrl: string | null;
+            parentId: string | null;
+            slug: string;
+        } | null;
+        seller: {
+            email: string;
+            firstName: string;
+            lastName: string;
+            id: string;
+        };
+        name: string;
+        rejectionReason: string | null;
+        id: string;
+        status: string;
+        createdAt: Date;
+        updatedAt: Date;
+        reviewedBy: string | null;
+        reviewedAt: Date | null;
+        description: string | null;
+        price: number;
+        stock: number;
+        categoryId: string | null;
+        approvalStatus: import("@prisma/client").$Enums.ProductApprovalStatus;
+        sellerId: string;
+    }>;
+    remove(id: string, sellerId: string): Promise<{
+        message: string;
+    }>;
+    getSellerProducts(sellerId: string): Promise<{
+        images: any;
+        category: {
+            name: string;
+            id: string;
+            createdAt: Date;
+            updatedAt: Date;
+            description: string | null;
+            imageUrl: string | null;
+            parentId: string | null;
+            slug: string;
+        } | null;
+        seller: {
+            email: string;
+            firstName: string;
+            lastName: string;
+            id: string;
+        };
+        name: string;
+        rejectionReason: string | null;
+        id: string;
+        status: string;
+        createdAt: Date;
+        updatedAt: Date;
+        reviewedBy: string | null;
+        reviewedAt: Date | null;
+        description: string | null;
+        price: number;
+        stock: number;
+        categoryId: string | null;
+        approvalStatus: import("@prisma/client").$Enums.ProductApprovalStatus;
+        sellerId: string;
+    }[]>;
+    getPendingProducts(): Promise<{
+        images: any;
+        category: {
+            name: string;
+            id: string;
+            createdAt: Date;
+            updatedAt: Date;
+            description: string | null;
+            imageUrl: string | null;
+            parentId: string | null;
+            slug: string;
+        } | null;
+        seller: {
+            email: string;
+            firstName: string;
+            lastName: string;
+            id: string;
+        };
+        name: string;
+        rejectionReason: string | null;
+        id: string;
+        status: string;
+        createdAt: Date;
+        updatedAt: Date;
+        reviewedBy: string | null;
+        reviewedAt: Date | null;
+        description: string | null;
+        price: number;
+        stock: number;
+        categoryId: string | null;
+        approvalStatus: import("@prisma/client").$Enums.ProductApprovalStatus;
+        sellerId: string;
+    }[]>;
+    approveProduct(productId: string, adminId: string, action: 'APPROVED' | 'REJECTED', rejectionReason?: string): Promise<{
+        images: any;
+        category: {
+            name: string;
+            id: string;
+            createdAt: Date;
+            updatedAt: Date;
+            description: string | null;
+            imageUrl: string | null;
+            parentId: string | null;
+            slug: string;
+        } | null;
+        seller: {
+            email: string;
+            firstName: string;
+            lastName: string;
+            id: string;
+        };
+        name: string;
+        rejectionReason: string | null;
+        id: string;
+        status: string;
+        createdAt: Date;
+        updatedAt: Date;
+        reviewedBy: string | null;
+        reviewedAt: Date | null;
+        description: string | null;
+        price: number;
+        stock: number;
+        categoryId: string | null;
+        approvalStatus: import("@prisma/client").$Enums.ProductApprovalStatus;
+        sellerId: string;
+    }>;
+    getApprovedProducts(): Promise<{
+        images: any;
+        category: {
+            name: string;
+            id: string;
+            createdAt: Date;
+            updatedAt: Date;
+            description: string | null;
+            imageUrl: string | null;
+            parentId: string | null;
+            slug: string;
+        } | null;
+        seller: {
+            email: string;
+            firstName: string;
+            lastName: string;
+            id: string;
+        };
+        name: string;
+        rejectionReason: string | null;
+        id: string;
+        status: string;
+        createdAt: Date;
+        updatedAt: Date;
+        reviewedBy: string | null;
+        reviewedAt: Date | null;
+        description: string | null;
+        price: number;
+        stock: number;
+        categoryId: string | null;
+        approvalStatus: import("@prisma/client").$Enums.ProductApprovalStatus;
+        sellerId: string;
+    }[]>;
+    getRejectedProducts(): Promise<{
+        images: any;
+        category: {
+            name: string;
+            id: string;
+            createdAt: Date;
+            updatedAt: Date;
+            description: string | null;
+            imageUrl: string | null;
+            parentId: string | null;
+            slug: string;
+        } | null;
+        seller: {
+            email: string;
+            firstName: string;
+            lastName: string;
+            id: string;
+        };
+        name: string;
+        rejectionReason: string | null;
+        id: string;
+        status: string;
+        createdAt: Date;
+        updatedAt: Date;
+        reviewedBy: string | null;
+        reviewedAt: Date | null;
+        description: string | null;
+        price: number;
+        stock: number;
+        categoryId: string | null;
+        approvalStatus: import("@prisma/client").$Enums.ProductApprovalStatus;
+        sellerId: string;
+    }[]>;
+    createWithImages(createProductDto: CreateProductDto, sellerId: string, files: Express.Multer.File[]): Promise<{
+        images: string[];
+        category: {
+            name: string;
+            id: string;
+            createdAt: Date;
+            updatedAt: Date;
+            description: string | null;
+            imageUrl: string | null;
+            parentId: string | null;
+            slug: string;
+        } | null;
+        seller: {
+            email: string;
+            firstName: string;
+            lastName: string;
+            id: string;
+        };
+        name: string;
+        rejectionReason: string | null;
+        id: string;
+        status: string;
+        createdAt: Date;
+        updatedAt: Date;
+        reviewedBy: string | null;
+        reviewedAt: Date | null;
+        description: string | null;
+        price: number;
+        stock: number;
+        categoryId: string | null;
+        approvalStatus: import("@prisma/client").$Enums.ProductApprovalStatus;
+        sellerId: string;
+    }>;
+    updateWithImages(id: string, updateProductDto: UpdateProductDto, sellerId: string, files?: Express.Multer.File[]): Promise<{
+        images: string[];
+        category: {
+            name: string;
+            id: string;
+            createdAt: Date;
+            updatedAt: Date;
+            description: string | null;
+            imageUrl: string | null;
+            parentId: string | null;
+            slug: string;
+        } | null;
+        seller: {
+            email: string;
+            firstName: string;
+            lastName: string;
+            id: string;
+        };
+        name: string;
+        rejectionReason: string | null;
+        id: string;
+        status: string;
+        createdAt: Date;
+        updatedAt: Date;
+        reviewedBy: string | null;
+        reviewedAt: Date | null;
+        description: string | null;
+        price: number;
+        stock: number;
+        categoryId: string | null;
+        approvalStatus: import("@prisma/client").$Enums.ProductApprovalStatus;
+        sellerId: string;
+    }>;
+}

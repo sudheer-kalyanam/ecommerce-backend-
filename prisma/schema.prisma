@@ -1,0 +1,237 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+enum UserRole {
+  ADMIN
+  SELLER
+  CUSTOMER
+}
+
+enum AdminRole {
+  DEVELOPER
+  ACCOUNTS
+}
+
+enum UserStatus {
+  ACTIVE
+  INACTIVE
+  PENDING
+  SUSPENDED
+}
+
+enum SellerRegistrationStatus {
+  PENDING
+  APPROVED
+  REJECTED
+  TEMP
+}
+
+enum ProductApprovalStatus {
+  PENDING
+  APPROVED
+  REJECTED
+}
+
+model User {
+  id        String     @id @default(cuid())
+  email     String     @unique
+  password  String
+  firstName String
+  lastName  String
+  phone     String?
+  role      UserRole   @default(CUSTOMER)
+  status    UserStatus @default(PENDING)
+  createdAt DateTime   @default(now())
+  updatedAt DateTime   @updatedAt
+
+  // Relations
+  otpCodes OtpCode[]
+  products Product[]
+  customerOrders Order[] @relation("CustomerOrders")
+  cartItems CartItem[]
+  wishlistItems WishlistItem[]
+  sellerCartItems CartItem[] @relation("SellerCartItems")
+  sellerOrderItems OrderItem[] @relation("SellerOrderItems")
+  adminRoles UserAdminRole[]
+
+  @@map("users")
+}
+
+model OtpCode {
+  id        String   @id @default(cuid())
+  userId    String
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  code      String
+  purpose   String   // 'login', 'registration', 'password_reset'
+  expiresAt DateTime
+  isUsed    Boolean  @default(false)
+  metadata  String?  // JSON string for storing additional data like file paths
+  createdAt DateTime @default(now())
+
+  @@map("otp_codes")
+}
+
+model Category {
+  id          String     @id @default(cuid())
+  name        String     @unique
+  slug        String     @unique
+  description String?
+  imageUrl    String?
+  parentId    String?
+  parent      Category?  @relation("CategoryHierarchy", fields: [parentId], references: [id])
+  children    Category[] @relation("CategoryHierarchy")
+  products    Product[]
+  createdAt   DateTime   @default(now())
+  updatedAt   DateTime   @updatedAt
+
+  @@map("categories")
+}
+
+model SellerRegistration {
+  id                String                    @id @default(cuid())
+  email             String                    @unique
+  password          String
+  firstName         String
+  lastName          String
+  phone             String?
+  businessName      String
+  businessType      String
+  businessAddress   String
+  businessPhone     String
+  businessEmail     String
+  taxId             String?
+  bankAccountNumber String?
+  bankName          String?
+  businessLicense   String? // File path or URL
+  idProof           String? // File path or URL
+  status            SellerRegistrationStatus  @default(PENDING)
+  rejectionReason   String?
+  reviewedBy        String? // Admin user ID who reviewed
+  reviewedAt        DateTime?
+  createdAt         DateTime                  @default(now())
+  updatedAt         DateTime                  @updatedAt
+
+  @@map("seller_registrations")
+}
+
+model Product {
+  id          String   @id @default(cuid())
+  name        String
+  description String?
+  price       Float
+  stock       Int      @default(0)
+  images      String?  // JSON array of image URLs
+  categoryId  String?
+  category    Category? @relation(fields: [categoryId], references: [id])
+  sellerId    String
+  seller      User     @relation(fields: [sellerId], references: [id])
+  status      String   @default("ACTIVE") // ACTIVE, INACTIVE, OUT_OF_STOCK
+  approvalStatus ProductApprovalStatus @default(PENDING)
+  rejectionReason String?
+  reviewedBy  String?
+  reviewedAt  DateTime?
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  // Relations
+  orderItems OrderItem[]
+  cartItems CartItem[]
+  wishlistItems WishlistItem[]
+
+  @@map("products")
+}
+
+model Order {
+  id                String      @id @default(cuid())
+  userId            String
+  user              User        @relation("CustomerOrders", fields: [userId], references: [id], onDelete: Cascade)
+  totalAmount       Float
+  status            OrderStatus @default(PENDING)
+  paymentMethod     String
+  deliveryAddress   Json
+  estimatedDelivery DateTime?
+  paymentId         String?
+  paymentStatus     String?
+  paymentDetails    Json?
+  createdAt         DateTime    @default(now())
+  updatedAt         DateTime    @updatedAt
+  items             OrderItem[]
+
+  @@map("orders")
+}
+
+model OrderItem {
+  id        String  @id @default(cuid())
+  orderId   String
+  order     Order   @relation(fields: [orderId], references: [id], onDelete: Cascade)
+  productId String
+  product   Product @relation(fields: [productId], references: [id], onDelete: Cascade)
+  sellerId  String
+  seller    User    @relation("SellerOrderItems", fields: [sellerId], references: [id], onDelete: Cascade)
+  quantity  Int
+  price     Float
+
+  @@map("order_items")
+}
+
+model UserAdminRole {
+  id        String    @id @default(cuid())
+  userId    String
+  user      User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+  adminRole AdminRole
+  createdAt DateTime  @default(now())
+
+  @@unique([userId, adminRole])
+  @@map("user_admin_roles")
+}
+
+model CartItem {
+  id        String   @id @default(cuid())
+  userId    String
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  productId String
+  product   Product  @relation(fields: [productId], references: [id], onDelete: Cascade)
+  sellerId  String
+  seller    User     @relation("SellerCartItems", fields: [sellerId], references: [id], onDelete: Cascade)
+  quantity  Int      @default(1)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@unique([userId, productId, sellerId])
+  @@map("cart_items")
+}
+
+model WishlistItem {
+  id        String   @id @default(cuid())
+  userId    String
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  productId String
+  product   Product  @relation(fields: [productId], references: [id], onDelete: Cascade)
+  createdAt DateTime @default(now())
+
+  @@unique([userId, productId])
+  @@map("wishlist_items")
+}
+
+enum OrderStatus {
+  PENDING
+  CONFIRMED
+  PROCESSING
+  SHIPPED
+  IN_TRANSIT
+  OUT_FOR_DELIVERY
+  DELIVERED
+  CANCELLED
+}

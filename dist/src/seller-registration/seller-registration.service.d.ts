@@ -1,0 +1,153 @@
+import { PrismaService } from '../prisma/prisma.service';
+import { EmailService } from '../email/email.service';
+import { UploadService } from '../upload/upload.service';
+import { SellerRegistrationDto, ApproveSellerDto } from './dto';
+export declare class SellerRegistrationService {
+    private prisma;
+    private emailService;
+    private uploadService;
+    constructor(prisma: PrismaService, emailService: EmailService, uploadService: UploadService);
+    private generateOTP;
+    private saveOTP;
+    registerSeller(registrationDto: SellerRegistrationDto): Promise<{
+        message: string;
+        requiresOTP: boolean;
+        email: string;
+    }>;
+    registerSellerWithFiles(registrationDto: SellerRegistrationDto, businessLicense?: string, idProof?: string): Promise<{
+        message: string;
+        requiresOTP: boolean;
+        email: string;
+    }>;
+    verifyOTPAndRegister(email: string, otp: string, registrationDto: SellerRegistrationDto): Promise<{
+        message: string;
+        registrationId: string;
+        status: import("@prisma/client").$Enums.SellerRegistrationStatus;
+    }>;
+    getPendingRegistrations(): Promise<{
+        id: string;
+        email: string;
+        password: string;
+        firstName: string;
+        lastName: string;
+        phone: string | null;
+        status: import("@prisma/client").$Enums.SellerRegistrationStatus;
+        createdAt: Date;
+        updatedAt: Date;
+        businessName: string;
+        businessType: string;
+        businessAddress: string;
+        businessPhone: string;
+        businessEmail: string;
+        taxId: string | null;
+        bankAccountNumber: string | null;
+        bankName: string | null;
+        businessLicense: string | null;
+        idProof: string | null;
+        rejectionReason: string | null;
+        reviewedBy: string | null;
+        reviewedAt: Date | null;
+    }[]>;
+    getApprovedRegistrations(): Promise<{
+        id: string;
+        email: string;
+        password: string;
+        firstName: string;
+        lastName: string;
+        phone: string | null;
+        status: import("@prisma/client").$Enums.SellerRegistrationStatus;
+        createdAt: Date;
+        updatedAt: Date;
+        businessName: string;
+        businessType: string;
+        businessAddress: string;
+        businessPhone: string;
+        businessEmail: string;
+        taxId: string | null;
+        bankAccountNumber: string | null;
+        bankName: string | null;
+        businessLicense: string | null;
+        idProof: string | null;
+        rejectionReason: string | null;
+        reviewedBy: string | null;
+        reviewedAt: Date | null;
+    }[]>;
+    getRejectedRegistrations(): Promise<{
+        id: string;
+        email: string;
+        password: string;
+        firstName: string;
+        lastName: string;
+        phone: string | null;
+        status: import("@prisma/client").$Enums.SellerRegistrationStatus;
+        createdAt: Date;
+        updatedAt: Date;
+        businessName: string;
+        businessType: string;
+        businessAddress: string;
+        businessPhone: string;
+        businessEmail: string;
+        taxId: string | null;
+        bankAccountNumber: string | null;
+        bankName: string | null;
+        businessLicense: string | null;
+        idProof: string | null;
+        rejectionReason: string | null;
+        reviewedBy: string | null;
+        reviewedAt: Date | null;
+    }[]>;
+    getRegistrationById(id: string): Promise<{
+        id: string;
+        email: string;
+        password: string;
+        firstName: string;
+        lastName: string;
+        phone: string | null;
+        status: import("@prisma/client").$Enums.SellerRegistrationStatus;
+        createdAt: Date;
+        updatedAt: Date;
+        businessName: string;
+        businessType: string;
+        businessAddress: string;
+        businessPhone: string;
+        businessEmail: string;
+        taxId: string | null;
+        bankAccountNumber: string | null;
+        bankName: string | null;
+        businessLicense: string | null;
+        idProof: string | null;
+        rejectionReason: string | null;
+        reviewedBy: string | null;
+        reviewedAt: Date | null;
+    }>;
+    approveSeller(approveDto: ApproveSellerDto, adminId: string): Promise<{
+        message: string;
+        email: string;
+        rejectionReason?: undefined;
+    } | {
+        message: string;
+        rejectionReason: string;
+        email?: undefined;
+    } | undefined>;
+    getRegistrationStatus(email: string): Promise<{
+        status: string;
+        rejectionReason?: undefined;
+        reviewedAt?: undefined;
+    } | {
+        status: import("@prisma/client").$Enums.SellerRegistrationStatus;
+        rejectionReason: string | null;
+        reviewedAt: Date | null;
+    }>;
+    createUserAccountForApprovedSeller(email: string): Promise<{
+        id: string;
+        email: string;
+        password: string;
+        firstName: string;
+        lastName: string;
+        phone: string | null;
+        role: import("@prisma/client").$Enums.UserRole;
+        status: import("@prisma/client").$Enums.UserStatus;
+        createdAt: Date;
+        updatedAt: Date;
+    }>;
+}
