@@ -9,9 +9,9 @@ export class EmailService {
   constructor(private configService: ConfigService) {
     const isDevelopment = this.configService.get('NODE_ENV') === 'development';
     
-    this.transporter = nodemailer.createTransport({
+    const smtpConfig = {
       host: this.configService.get('SMTP_HOST'),
-      port: this.configService.get('SMTP_PORT'),
+      port: parseInt(this.configService.get('SMTP_PORT') || '587'),
       secure: false, // true for 465, false for other ports
       auth: {
         user: this.configService.get('SMTP_USER'),
@@ -36,7 +36,9 @@ export class EmailService {
       // Enable debug logging in all environments for troubleshooting
       debug: true,
       logger: true,
-    });
+    };
+
+    this.transporter = nodemailer.createTransport(smtpConfig);
   }
 
   async verifyConnection() {

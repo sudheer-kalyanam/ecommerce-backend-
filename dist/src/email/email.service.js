@@ -52,29 +52,42 @@ let EmailService = class EmailService {
     constructor(configService) {
         this.configService = configService;
         const isDevelopment = this.configService.get('NODE_ENV') === 'development';
-        this.transporter = nodemailer.createTransport({
+        const smtpConfig = {
             host: this.configService.get('SMTP_HOST'),
-            port: this.configService.get('SMTP_PORT'),
+            port: parseInt(this.configService.get('SMTP_PORT') || '587'),
             secure: false,
             auth: {
                 user: this.configService.get('SMTP_USER'),
                 pass: this.configService.get('SMTP_PASS'),
             },
             tls: {
-                rejectUnauthorized: !isDevelopment,
-                ciphers: isDevelopment ? 'SSLv3' : undefined,
+                rejectUnauthorized: false,
+                ciphers: 'SSLv3',
+                secureProtocol: 'TLSv1_2_method',
+                checkServerIdentity: () => undefined,
             },
-            connectionTimeout: 120000,
-            greetingTimeout: 60000,
-            socketTimeout: 120000,
-            pool: true,
-            maxConnections: 5,
-            maxMessages: 100,
-            rateDelta: 20000,
-            rateLimit: 5,
-            debug: isDevelopment,
-            logger: isDevelopment,
-        });
+            connectionTimeout: 30000,
+            greetingTimeout: 30000,
+            socketTimeout: 30000,
+            pool: false,
+            maxConnections: 1,
+            maxMessages: 1,
+            debug: true,
+            logger: true,
+        };
+        this.transporter = nodemailer.createTransport(smtpConfig);
+    }
+    async verifyConnection() {
+        try {
+            console.log('🔍 [EMAIL SERVICE] Verifying SMTP connection...');
+            await this.transporter.verify();
+            console.log('✅ [EMAIL SERVICE] SMTP connection verified successfully');
+            return true;
+        }
+        catch (error) {
+            console.error('❌ [EMAIL SERVICE] SMTP connection verification failed:', error.message);
+            return false;
+        }
     }
     async sendOTP(email, otp) {
         console.log(`\n🔐 OTP CODE FOR DEBUGGING:`);
@@ -82,6 +95,11 @@ let EmailService = class EmailService {
         console.log(`🔢 OTP Code: ${otp}`);
         console.log(`⏰ Generated at: ${new Date().toLocaleString()}`);
         console.log(`📝 Valid for: 10 minutes\n`);
+        const isConnected = await this.verifyConnection();
+        if (!isConnected) {
+            console.log('⚠️  SMTP connection failed, but OTP is logged above for debugging');
+            return;
+        }
         const mailOptions = {
             from: this.configService.get('SMTP_USER'),
             to: email,
@@ -103,15 +121,22 @@ let EmailService = class EmailService {
         for (let attempt = 1; attempt <= maxRetries; attempt++) {
             try {
                 console.log(`📧 [EMAIL SERVICE] Attempt ${attempt}/${maxRetries} to send OTP email`);
-                await this.transporter.sendMail(mailOptions);
+                const sendPromise = this.transporter.sendMail(mailOptions);
+                const timeoutPromise = new Promise((_, reject) => setTimeout(() => reject(new Error('Email send timeout after 25 seconds')), 25000));
+                await Promise.race([sendPromise, timeoutPromise]);
                 console.log(`✅ OTP email sent successfully to ${email}`);
                 return;
             }
             catch (error) {
                 lastError = error;
-                console.error(`❌ [EMAIL SERVICE] Attempt ${attempt} failed:`, error.message);
+                console.error(`❌ [EMAIL SERVICE] Attempt ${attempt} failed:`, {
+                    message: error.message,
+                    code: error.code,
+                    command: error.command,
+                    response: error.response,
+                });
                 if (attempt < maxRetries) {
-                    const delay = attempt * 2000;
+                    const delay = attempt * 3000;
                     console.log(`⏳ [EMAIL SERVICE] Retrying in ${delay}ms...`);
                     await new Promise(resolve => setTimeout(resolve, delay));
                 }
