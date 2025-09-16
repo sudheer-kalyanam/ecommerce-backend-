@@ -24,10 +24,16 @@ export class EmailService {
         // Use modern TLS cipher suites
         ciphers: isDevelopment ? 'SSLv3' : undefined,
       },
-      // Additional options for better compatibility
-      connectionTimeout: 60000, // 60 seconds
-      greetingTimeout: 30000, // 30 seconds
-      socketTimeout: 60000, // 60 seconds
+      // Enhanced timeout settings for Railway deployment
+      connectionTimeout: 120000, // 2 minutes
+      greetingTimeout: 60000, // 1 minute
+      socketTimeout: 120000, // 2 minutes
+      // Retry configuration
+      pool: true,
+      maxConnections: 5,
+      maxMessages: 100,
+      rateDelta: 20000,
+      rateLimit: 5,
       // Enable debug logging in development
       debug: isDevelopment,
       logger: isDevelopment,
@@ -59,13 +65,33 @@ export class EmailService {
       `,
     };
 
-    try {
-      await this.transporter.sendMail(mailOptions);
-      console.log(`✅ OTP email sent successfully to ${email}`);
-    } catch (error) {
-      console.error('❌ Error sending email:', error);
-      console.log(`⚠️  Email failed, but OTP is logged above for debugging`);
+    // Try to send email with retry logic
+    const maxRetries = 3;
+    let lastError = null;
+
+    for (let attempt = 1; attempt <= maxRetries; attempt++) {
+      try {
+        console.log(`📧 [EMAIL SERVICE] Attempt ${attempt}/${maxRetries} to send OTP email`);
+        await this.transporter.sendMail(mailOptions);
+        console.log(`✅ OTP email sent successfully to ${email}`);
+        return; // Success, exit the function
+      } catch (error) {
+        lastError = error;
+        console.error(`❌ [EMAIL SERVICE] Attempt ${attempt} failed:`, error.message);
+        
+        if (attempt < maxRetries) {
+          const delay = attempt * 2000; // 2s, 4s, 6s delays
+          console.log(`⏳ [EMAIL SERVICE] Retrying in ${delay}ms...`);
+          await new Promise(resolve => setTimeout(resolve, delay));
+        }
+      }
     }
+
+    // All attempts failed
+    console.error('❌ [EMAIL SERVICE] All email attempts failed:', lastError);
+    console.log(`⚠️  Email failed after ${maxRetries} attempts, but OTP is logged above for debugging`);
+    // Don't throw error - let the login process continue
+    // The OTP is still valid and logged for testing
   }
 
   async sendWelcomeEmail(email: string, firstName: string) {
