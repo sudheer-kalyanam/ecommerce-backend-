@@ -10,10 +10,10 @@ export declare class CartService {
             images: any;
             price: number;
             category: {
-                name: string;
                 id: string;
                 createdAt: Date;
                 updatedAt: Date;
+                name: string;
                 description: string | null;
                 imageUrl: string | null;
                 parentId: string | null;
@@ -34,10 +34,10 @@ export declare class CartService {
     addToCart(userId: string, productId: string, quantity: number, sellerId?: string): Promise<{
         product: {
             category: {
-                name: string;
                 id: string;
                 createdAt: Date;
                 updatedAt: Date;
+                name: string;
                 description: string | null;
                 imageUrl: string | null;
                 parentId: string | null;
@@ -51,12 +51,12 @@ export declare class CartService {
                 id: string;
             };
         } & {
-            name: string;
             rejectionReason: string | null;
             id: string;
             status: string;
             createdAt: Date;
             updatedAt: Date;
+            name: string;
             reviewedBy: string | null;
             reviewedAt: Date | null;
             description: string | null;
@@ -79,10 +79,10 @@ export declare class CartService {
     updateCartItem(userId: string, itemId: string, quantity: number): Promise<{
         product: {
             category: {
-                name: string;
                 id: string;
                 createdAt: Date;
                 updatedAt: Date;
+                name: string;
                 description: string | null;
                 imageUrl: string | null;
                 parentId: string | null;
@@ -96,12 +96,12 @@ export declare class CartService {
                 id: string;
             };
         } & {
-            name: string;
             rejectionReason: string | null;
             id: string;
             status: string;
             createdAt: Date;
             updatedAt: Date;
+            name: string;
             reviewedBy: string | null;
             reviewedAt: Date | null;
             description: string | null;

@@ -10,10 +10,10 @@ export declare class CartController {
             images: any;
             price: number;
             category: {
-                name: string;
                 id: string;
                 createdAt: Date;
                 updatedAt: Date;
+                name: string;
                 description: string | null;
                 imageUrl: string | null;
                 parentId: string | null;
@@ -38,10 +38,10 @@ export declare class CartController {
     }): Promise<{
         product: {
             category: {
-                name: string;
                 id: string;
                 createdAt: Date;
                 updatedAt: Date;
+                name: string;
                 description: string | null;
                 imageUrl: string | null;
                 parentId: string | null;
@@ -55,12 +55,12 @@ export declare class CartController {
                 id: string;
             };
         } & {
-            name: string;
             rejectionReason: string | null;
             id: string;
             status: string;
             createdAt: Date;
             updatedAt: Date;
+            name: string;
             reviewedBy: string | null;
             reviewedAt: Date | null;
             description: string | null;
@@ -85,10 +85,10 @@ export declare class CartController {
     }): Promise<{
         product: {
             category: {
-                name: string;
                 id: string;
                 createdAt: Date;
                 updatedAt: Date;
+                name: string;
                 description: string | null;
                 imageUrl: string | null;
                 parentId: string | null;
@@ -102,12 +102,12 @@ export declare class CartController {
                 id: string;
             };
         } & {
-            name: string;
             rejectionReason: string | null;
             id: string;
             status: string;
             createdAt: Date;
             updatedAt: Date;
+            name: string;
             reviewedBy: string | null;
             reviewedAt: Date | null;
             description: string | null;

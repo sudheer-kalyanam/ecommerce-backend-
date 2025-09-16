@@ -9,10 +9,10 @@ export declare class ProductsController {
     create(createProductDto: CreateProductDto, req: any): Promise<{
         images: any;
         category: {
-            name: string;
             id: string;
             createdAt: Date;
             updatedAt: Date;
+            name: string;
             description: string | null;
             imageUrl: string | null;
             parentId: string | null;
@@ -24,12 +24,12 @@ export declare class ProductsController {
             lastName: string;
             id: string;
         };
-        name: string;
         rejectionReason: string | null;
         id: string;
         status: string;
         createdAt: Date;
         updatedAt: Date;
+        name: string;
         reviewedBy: string | null;
         reviewedAt: Date | null;
         description: string | null;
@@ -42,10 +42,10 @@ export declare class ProductsController {
     createWithImages(createProductDto: CreateProductDto, files: Express.Multer.File[], req: any): Promise<{
         images: string[];
         category: {
-            name: string;
             id: string;
             createdAt: Date;
             updatedAt: Date;
+            name: string;
             description: string | null;
             imageUrl: string | null;
             parentId: string | null;
@@ -57,12 +57,12 @@ export declare class ProductsController {
             lastName: string;
             id: string;
         };
-        name: string;
         rejectionReason: string | null;
         id: string;
         status: string;
         createdAt: Date;
         updatedAt: Date;
+        name: string;
         reviewedBy: string | null;
         reviewedAt: Date | null;
         description: string | null;
@@ -75,10 +75,10 @@ export declare class ProductsController {
     findAll(req: any): Promise<{
         images: any;
         category: {
-            name: string;
             id: string;
             createdAt: Date;
             updatedAt: Date;
+            name: string;
             description: string | null;
             imageUrl: string | null;
             parentId: string | null;
@@ -90,12 +90,12 @@ export declare class ProductsController {
             lastName: string;
             id: string;
         };
-        name: string;
         rejectionReason: string | null;
         id: string;
         status: string;
         createdAt: Date;
         updatedAt: Date;
+        name: string;
         reviewedBy: string | null;
         reviewedAt: Date | null;
         description: string | null;
@@ -108,10 +108,10 @@ export declare class ProductsController {
     findOne(id: string, req: any): Promise<{
         images: any;
         category: {
-            name: string;
             id: string;
             createdAt: Date;
             updatedAt: Date;
+            name: string;
             description: string | null;
             imageUrl: string | null;
             parentId: string | null;
@@ -123,12 +123,12 @@ export declare class ProductsController {
             lastName: string;
             id: string;
         };
-        name: string;
         rejectionReason: string | null;
         id: string;
         status: string;
         createdAt: Date;
         updatedAt: Date;
+        name: string;
         reviewedBy: string | null;
         reviewedAt: Date | null;
         description: string | null;
@@ -141,10 +141,10 @@ export declare class ProductsController {
     update(id: string, updateProductDto: UpdateProductDto, req: any): Promise<{
         images: any;
         category: {
-            name: string;
             id: string;
             createdAt: Date;
             updatedAt: Date;
+            name: string;
             description: string | null;
             imageUrl: string | null;
             parentId: string | null;
@@ -156,12 +156,12 @@ export declare class ProductsController {
             lastName: string;
             id: string;
         };
-        name: string;
         rejectionReason: string | null;
         id: string;
         status: string;
         createdAt: Date;
         updatedAt: Date;
+        name: string;
         reviewedBy: string | null;
         reviewedAt: Date | null;
         description: string | null;
@@ -177,10 +177,10 @@ export declare class ProductsController {
     getMyProducts(req: any): Promise<{
         images: any;
         category: {
-            name: string;
             id: string;
             createdAt: Date;
             updatedAt: Date;
+            name: string;
             description: string | null;
             imageUrl: string | null;
             parentId: string | null;
@@ -192,12 +192,12 @@ export declare class ProductsController {
             lastName: string;
             id: string;
         };
-        name: string;
         rejectionReason: string | null;
         id: string;
         status: string;
         createdAt: Date;
         updatedAt: Date;
+        name: string;
         reviewedBy: string | null;
         reviewedAt: Date | null;
         description: string | null;
@@ -210,10 +210,10 @@ export declare class ProductsController {
     getPendingProducts(): Promise<{
         images: any;
         category: {
-            name: string;
             id: string;
             createdAt: Date;
             updatedAt: Date;
+            name: string;
             description: string | null;
             imageUrl: string | null;
             parentId: string | null;
@@ -225,12 +225,12 @@ export declare class ProductsController {
             lastName: string;
             id: string;
         };
-        name: string;
         rejectionReason: string | null;
         id: string;
         status: string;
         createdAt: Date;
         updatedAt: Date;
+        name: string;
         reviewedBy: string | null;
         reviewedAt: Date | null;
         description: string | null;
@@ -247,10 +247,10 @@ export declare class ProductsController {
     }, req: any): Promise<{
         images: any;
         category: {
-            name: string;
             id: string;
             createdAt: Date;
             updatedAt: Date;
+            name: string;
             description: string | null;
             imageUrl: string | null;
             parentId: string | null;
@@ -262,12 +262,12 @@ export declare class ProductsController {
             lastName: string;
             id: string;
         };
-        name: string;
         rejectionReason: string | null;
         id: string;
         status: string;
         createdAt: Date;
         updatedAt: Date;
+        name: string;
         reviewedBy: string | null;
         reviewedAt: Date | null;
         description: string | null;
@@ -280,10 +280,10 @@ export declare class ProductsController {
     getApprovedProducts(): Promise<{
         images: any;
         category: {
-            name: string;
             id: string;
             createdAt: Date;
             updatedAt: Date;
+            name: string;
             description: string | null;
             imageUrl: string | null;
             parentId: string | null;
@@ -295,12 +295,12 @@ export declare class ProductsController {
             lastName: string;
             id: string;
         };
-        name: string;
         rejectionReason: string | null;
         id: string;
         status: string;
         createdAt: Date;
         updatedAt: Date;
+        name: string;
         reviewedBy: string | null;
         reviewedAt: Date | null;
         description: string | null;
@@ -313,10 +313,10 @@ export declare class ProductsController {
     getRejectedProducts(): Promise<{
         images: any;
         category: {
-            name: string;
             id: string;
             createdAt: Date;
             updatedAt: Date;
+            name: string;
             description: string | null;
             imageUrl: string | null;
             parentId: string | null;
@@ -328,12 +328,12 @@ export declare class ProductsController {
             lastName: string;
             id: string;
         };
-        name: string;
         rejectionReason: string | null;
         id: string;
         status: string;
         createdAt: Date;
         updatedAt: Date;
+        name: string;
         reviewedBy: string | null;
         reviewedAt: Date | null;
         description: string | null;

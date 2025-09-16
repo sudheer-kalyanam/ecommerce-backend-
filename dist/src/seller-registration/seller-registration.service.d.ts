@@ -25,15 +25,11 @@ export declare class SellerRegistrationService {
         status: import("@prisma/client").$Enums.SellerRegistrationStatus;
     }>;
     getPendingRegistrations(): Promise<{
-        id: string;
         email: string;
         password: string;
         firstName: string;
         lastName: string;
         phone: string | null;
-        status: import("@prisma/client").$Enums.SellerRegistrationStatus;
-        createdAt: Date;
-        updatedAt: Date;
         businessName: string;
         businessType: string;
         businessAddress: string;
@@ -45,19 +41,19 @@ export declare class SellerRegistrationService {
         businessLicense: string | null;
         idProof: string | null;
         rejectionReason: string | null;
+        id: string;
+        status: import("@prisma/client").$Enums.SellerRegistrationStatus;
+        createdAt: Date;
+        updatedAt: Date;
         reviewedBy: string | null;
         reviewedAt: Date | null;
     }[]>;
     getApprovedRegistrations(): Promise<{
-        id: string;
         email: string;
         password: string;
         firstName: string;
         lastName: string;
         phone: string | null;
-        status: import("@prisma/client").$Enums.SellerRegistrationStatus;
-        createdAt: Date;
-        updatedAt: Date;
         businessName: string;
         businessType: string;
         businessAddress: string;
@@ -69,19 +65,19 @@ export declare class SellerRegistrationService {
         businessLicense: string | null;
         idProof: string | null;
         rejectionReason: string | null;
+        id: string;
+        status: import("@prisma/client").$Enums.SellerRegistrationStatus;
+        createdAt: Date;
+        updatedAt: Date;
         reviewedBy: string | null;
         reviewedAt: Date | null;
     }[]>;
     getRejectedRegistrations(): Promise<{
-        id: string;
         email: string;
         password: string;
         firstName: string;
         lastName: string;
         phone: string | null;
-        status: import("@prisma/client").$Enums.SellerRegistrationStatus;
-        createdAt: Date;
-        updatedAt: Date;
         businessName: string;
         businessType: string;
         businessAddress: string;
@@ -93,19 +89,19 @@ export declare class SellerRegistrationService {
         businessLicense: string | null;
         idProof: string | null;
         rejectionReason: string | null;
+        id: string;
+        status: import("@prisma/client").$Enums.SellerRegistrationStatus;
+        createdAt: Date;
+        updatedAt: Date;
         reviewedBy: string | null;
         reviewedAt: Date | null;
     }[]>;
     getRegistrationById(id: string): Promise<{
-        id: string;
         email: string;
         password: string;
         firstName: string;
         lastName: string;
         phone: string | null;
-        status: import("@prisma/client").$Enums.SellerRegistrationStatus;
-        createdAt: Date;
-        updatedAt: Date;
         businessName: string;
         businessType: string;
         businessAddress: string;
@@ -117,6 +113,10 @@ export declare class SellerRegistrationService {
         businessLicense: string | null;
         idProof: string | null;
         rejectionReason: string | null;
+        id: string;
+        status: import("@prisma/client").$Enums.SellerRegistrationStatus;
+        createdAt: Date;
+        updatedAt: Date;
         reviewedBy: string | null;
         reviewedAt: Date | null;
     }>;
@@ -139,12 +139,12 @@ export declare class SellerRegistrationService {
         reviewedAt: Date | null;
     }>;
     createUserAccountForApprovedSeller(email: string): Promise<{
-        id: string;
         email: string;
         password: string;
         firstName: string;
         lastName: string;
         phone: string | null;
+        id: string;
         role: import("@prisma/client").$Enums.UserRole;
         status: import("@prisma/client").$Enums.UserStatus;
         createdAt: Date;

@@ -9,10 +9,10 @@ export declare class ProductsService {
     create(createProductDto: CreateProductDto, sellerId: string): Promise<{
         images: any;
         category: {
-            name: string;
             id: string;
             createdAt: Date;
             updatedAt: Date;
+            name: string;
             description: string | null;
             imageUrl: string | null;
             parentId: string | null;
@@ -24,12 +24,12 @@ export declare class ProductsService {
             lastName: string;
             id: string;
         };
-        name: string;
         rejectionReason: string | null;
         id: string;
         status: string;
         createdAt: Date;
         updatedAt: Date;
+        name: string;
         reviewedBy: string | null;
         reviewedAt: Date | null;
         description: string | null;
@@ -42,10 +42,10 @@ export declare class ProductsService {
     findAll(sellerId?: string): Promise<{
         images: any;
         category: {
-            name: string;
             id: string;
             createdAt: Date;
             updatedAt: Date;
+            name: string;
             description: string | null;
             imageUrl: string | null;
             parentId: string | null;
@@ -57,12 +57,12 @@ export declare class ProductsService {
             lastName: string;
             id: string;
         };
-        name: string;
         rejectionReason: string | null;
         id: string;
         status: string;
         createdAt: Date;
         updatedAt: Date;
+        name: string;
         reviewedBy: string | null;
         reviewedAt: Date | null;
         description: string | null;
@@ -75,10 +75,10 @@ export declare class ProductsService {
     findOne(id: string, sellerId?: string): Promise<{
         images: any;
         category: {
-            name: string;
             id: string;
             createdAt: Date;
             updatedAt: Date;
+            name: string;
             description: string | null;
             imageUrl: string | null;
             parentId: string | null;
@@ -90,12 +90,12 @@ export declare class ProductsService {
             lastName: string;
             id: string;
         };
-        name: string;
         rejectionReason: string | null;
         id: string;
         status: string;
         createdAt: Date;
         updatedAt: Date;
+        name: string;
         reviewedBy: string | null;
         reviewedAt: Date | null;
         description: string | null;
@@ -108,10 +108,10 @@ export declare class ProductsService {
     update(id: string, updateProductDto: UpdateProductDto, sellerId: string): Promise<{
         images: any;
         category: {
-            name: string;
             id: string;
             createdAt: Date;
             updatedAt: Date;
+            name: string;
             description: string | null;
             imageUrl: string | null;
             parentId: string | null;
@@ -123,12 +123,12 @@ export declare class ProductsService {
             lastName: string;
             id: string;
         };
-        name: string;
         rejectionReason: string | null;
         id: string;
         status: string;
         createdAt: Date;
         updatedAt: Date;
+        name: string;
         reviewedBy: string | null;
         reviewedAt: Date | null;
         description: string | null;
@@ -144,10 +144,10 @@ export declare class ProductsService {
     getSellerProducts(sellerId: string): Promise<{
         images: any;
         category: {
-            name: string;
             id: string;
             createdAt: Date;
             updatedAt: Date;
+            name: string;
             description: string | null;
             imageUrl: string | null;
             parentId: string | null;
@@ -159,12 +159,12 @@ export declare class ProductsService {
             lastName: string;
             id: string;
         };
-        name: string;
         rejectionReason: string | null;
         id: string;
         status: string;
         createdAt: Date;
         updatedAt: Date;
+        name: string;
         reviewedBy: string | null;
         reviewedAt: Date | null;
         description: string | null;
@@ -177,10 +177,10 @@ export declare class ProductsService {
     getPendingProducts(): Promise<{
         images: any;
         category: {
-            name: string;
             id: string;
             createdAt: Date;
             updatedAt: Date;
+            name: string;
             description: string | null;
             imageUrl: string | null;
             parentId: string | null;
@@ -192,12 +192,12 @@ export declare class ProductsService {
             lastName: string;
             id: string;
         };
-        name: string;
         rejectionReason: string | null;
         id: string;
         status: string;
         createdAt: Date;
         updatedAt: Date;
+        name: string;
         reviewedBy: string | null;
         reviewedAt: Date | null;
         description: string | null;
@@ -210,10 +210,10 @@ export declare class ProductsService {
     approveProduct(productId: string, adminId: string, action: 'APPROVED' | 'REJECTED', rejectionReason?: string): Promise<{
         images: any;
         category: {
-            name: string;
             id: string;
             createdAt: Date;
             updatedAt: Date;
+            name: string;
             description: string | null;
             imageUrl: string | null;
             parentId: string | null;
@@ -225,12 +225,12 @@ export declare class ProductsService {
             lastName: string;
             id: string;
         };
-        name: string;
         rejectionReason: string | null;
         id: string;
         status: string;
         createdAt: Date;
         updatedAt: Date;
+        name: string;
         reviewedBy: string | null;
         reviewedAt: Date | null;
         description: string | null;
@@ -243,10 +243,10 @@ export declare class ProductsService {
     getApprovedProducts(): Promise<{
         images: any;
         category: {
-            name: string;
             id: string;
             createdAt: Date;
             updatedAt: Date;
+            name: string;
             description: string | null;
             imageUrl: string | null;
             parentId: string | null;
@@ -258,12 +258,12 @@ export declare class ProductsService {
             lastName: string;
             id: string;
         };
-        name: string;
         rejectionReason: string | null;
         id: string;
         status: string;
         createdAt: Date;
         updatedAt: Date;
+        name: string;
         reviewedBy: string | null;
         reviewedAt: Date | null;
         description: string | null;
@@ -276,10 +276,10 @@ export declare class ProductsService {
     getRejectedProducts(): Promise<{
         images: any;
         category: {
-            name: string;
             id: string;
             createdAt: Date;
             updatedAt: Date;
+            name: string;
             description: string | null;
             imageUrl: string | null;
             parentId: string | null;
@@ -291,12 +291,12 @@ export declare class ProductsService {
             lastName: string;
             id: string;
         };
-        name: string;
         rejectionReason: string | null;
         id: string;
         status: string;
         createdAt: Date;
         updatedAt: Date;
+        name: string;
         reviewedBy: string | null;
         reviewedAt: Date | null;
         description: string | null;
@@ -309,10 +309,10 @@ export declare class ProductsService {
     createWithImages(createProductDto: CreateProductDto, sellerId: string, files: Express.Multer.File[]): Promise<{
         images: string[];
         category: {
-            name: string;
             id: string;
             createdAt: Date;
             updatedAt: Date;
+            name: string;
             description: string | null;
             imageUrl: string | null;
             parentId: string | null;
@@ -324,12 +324,12 @@ export declare class ProductsService {
             lastName: string;
             id: string;
         };
-        name: string;
         rejectionReason: string | null;
         id: string;
         status: string;
         createdAt: Date;
         updatedAt: Date;
+        name: string;
         reviewedBy: string | null;
         reviewedAt: Date | null;
         description: string | null;
@@ -342,10 +342,10 @@ export declare class ProductsService {
     updateWithImages(id: string, updateProductDto: UpdateProductDto, sellerId: string, files?: Express.Multer.File[]): Promise<{
         images: string[];
         category: {
-            name: string;
             id: string;
             createdAt: Date;
             updatedAt: Date;
+            name: string;
             description: string | null;
             imageUrl: string | null;
             parentId: string | null;
@@ -357,12 +357,12 @@ export declare class ProductsService {
             lastName: string;
             id: string;
         };
-        name: string;
         rejectionReason: string | null;
         id: string;
         status: string;
         createdAt: Date;
         updatedAt: Date;
+        name: string;
         reviewedBy: string | null;
         reviewedAt: Date | null;
         description: string | null;

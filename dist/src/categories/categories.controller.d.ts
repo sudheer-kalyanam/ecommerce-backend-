@@ -14,10 +14,10 @@ export declare class CategoriesController {
         id: string;
     }>;
     findAll(): Promise<{
-        name: string;
         id: string;
         createdAt: Date;
         updatedAt: Date;
+        name: string;
         description: string | null;
         imageUrl: string | null;
         parentId: string | null;
@@ -30,30 +30,30 @@ export declare class CategoriesController {
         description: string;
     }[]>;
     findOne(id: string): Promise<{
-        name: string;
         id: string;
         createdAt: Date;
         updatedAt: Date;
+        name: string;
         description: string | null;
         imageUrl: string | null;
         parentId: string | null;
         slug: string;
     }>;
     findBySlug(slug: string): Promise<{
-        name: string;
         id: string;
         createdAt: Date;
         updatedAt: Date;
+        name: string;
         description: string | null;
         imageUrl: string | null;
         parentId: string | null;
         slug: string;
     }>;
     update(id: string, updateCategoryDto: UpdateCategoryDto): Promise<{
-        name: string;
         id: string;
         createdAt: Date;
         updatedAt: Date;
+        name: string;
         description: string | null;
         imageUrl: string | null;
         parentId: string | null;

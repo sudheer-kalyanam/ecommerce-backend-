@@ -30,9 +30,15 @@ let RazorpayService = class RazorpayService {
             keyIdLength: keyId?.length || 0,
             keySecretLength: keySecret?.length || 0
         });
+        const finalKeyId = keyId || 'rzp_test_1234567890';
+        const finalKeySecret = keySecret || 'dummy_secret_key_for_development';
+        console.log('🔧 Using Razorpay keys:', {
+            keyId: finalKeyId,
+            keySecret: finalKeySecret.substring(0, 10) + '...'
+        });
         this.razorpay = new razorpay_1.default({
-            key_id: keyId,
-            key_secret: keySecret,
+            key_id: finalKeyId,
+            key_secret: finalKeySecret,
         });
     }
     async createOrder(amount, currency = 'INR', receipt) {
