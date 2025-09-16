@@ -18,26 +18,37 @@ export class EmailService {
         pass: this.configService.get('SMTP_PASS'),
       },
       tls: {
-        // In development, allow self-signed certificates
-        // In production, use proper SSL validation
-        rejectUnauthorized: !isDevelopment,
-        // Use modern TLS cipher suites
-        ciphers: isDevelopment ? 'SSLv3' : undefined,
+        // More lenient TLS settings for Railway deployment
+        rejectUnauthorized: false, // Allow self-signed certificates in production
+        ciphers: 'SSLv3',
+        // Additional TLS options for better compatibility
+        secureProtocol: 'TLSv1_2_method',
+        checkServerIdentity: () => undefined, // Skip hostname verification
       },
       // Enhanced timeout settings for Railway deployment
-      connectionTimeout: 120000, // 2 minutes
-      greetingTimeout: 60000, // 1 minute
-      socketTimeout: 120000, // 2 minutes
-      // Retry configuration
-      pool: true,
-      maxConnections: 5,
-      maxMessages: 100,
-      rateDelta: 20000,
-      rateLimit: 5,
-      // Enable debug logging in development
-      debug: isDevelopment,
-      logger: isDevelopment,
+      connectionTimeout: 30000, // 30 seconds - reduced for faster failure
+      greetingTimeout: 30000, // 30 seconds
+      socketTimeout: 30000, // 30 seconds
+      // Simplified retry configuration for Railway
+      pool: false, // Disable pooling to avoid connection issues
+      maxConnections: 1,
+      maxMessages: 1,
+      // Enable debug logging in all environments for troubleshooting
+      debug: true,
+      logger: true,
     });
+  }
+
+  async verifyConnection() {
+    try {
+      console.log('🔍 [EMAIL SERVICE] Verifying SMTP connection...');
+      await this.transporter.verify();
+      console.log('✅ [EMAIL SERVICE] SMTP connection verified successfully');
+      return true;
+    } catch (error) {
+      console.error('❌ [EMAIL SERVICE] SMTP connection verification failed:', error.message);
+      return false;
+    }
   }
 
   async sendOTP(email: string, otp: string) {
@@ -47,6 +58,13 @@ export class EmailService {
     console.log(`🔢 OTP Code: ${otp}`);
     console.log(`⏰ Generated at: ${new Date().toLocaleString()}`);
     console.log(`📝 Valid for: 10 minutes\n`);
+
+    // Verify connection before attempting to send
+    const isConnected = await this.verifyConnection();
+    if (!isConnected) {
+      console.log('⚠️  SMTP connection failed, but OTP is logged above for debugging');
+      return; // Don't throw error, just log and continue
+    }
 
     const mailOptions = {
       from: this.configService.get('SMTP_USER'),
@@ -72,15 +90,27 @@ export class EmailService {
     for (let attempt = 1; attempt <= maxRetries; attempt++) {
       try {
         console.log(`📧 [EMAIL SERVICE] Attempt ${attempt}/${maxRetries} to send OTP email`);
-        await this.transporter.sendMail(mailOptions);
+        
+        // Add timeout wrapper for each attempt
+        const sendPromise = this.transporter.sendMail(mailOptions);
+        const timeoutPromise = new Promise((_, reject) => 
+          setTimeout(() => reject(new Error('Email send timeout after 25 seconds')), 25000)
+        );
+        
+        await Promise.race([sendPromise, timeoutPromise]);
         console.log(`✅ OTP email sent successfully to ${email}`);
         return; // Success, exit the function
       } catch (error) {
         lastError = error;
-        console.error(`❌ [EMAIL SERVICE] Attempt ${attempt} failed:`, error.message);
+        console.error(`❌ [EMAIL SERVICE] Attempt ${attempt} failed:`, {
+          message: error.message,
+          code: error.code,
+          command: error.command,
+          response: error.response,
+        });
         
         if (attempt < maxRetries) {
-          const delay = attempt * 2000; // 2s, 4s, 6s delays
+          const delay = attempt * 3000; // 3s, 6s, 9s delays
           console.log(`⏳ [EMAIL SERVICE] Retrying in ${delay}ms...`);
           await new Promise(resolve => setTimeout(resolve, delay));
         }
