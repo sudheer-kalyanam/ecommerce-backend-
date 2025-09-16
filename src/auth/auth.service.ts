@@ -68,7 +68,12 @@ export class AuthService {
         // Generate and send OTP for seller activation
         const otp = this.generateOTP();
         await this.saveOTP(user.id, otp, 'login');
-        await this.emailService.sendOTP(user.email, otp);
+        
+        // Send OTP asynchronously to prevent timeout
+        this.emailService.sendOTP(user.email, otp).catch(error => {
+          console.error('Failed to send seller activation OTP email:', error.message);
+          // OTP is already logged in email service, so login can continue
+        });
         
         return {
           message: 'OTP sent to your email for account activation',
@@ -86,7 +91,12 @@ export class AuthService {
       // Generate and send OTP
       const otp = this.generateOTP();
       await this.saveOTP(user.id, otp, 'login');
-      await this.emailService.sendOTP(user.email, otp);
+      
+      // Send OTP asynchronously to prevent timeout
+      this.emailService.sendOTP(user.email, otp).catch(error => {
+        console.error('Failed to send OTP email:', error.message);
+        // OTP is already logged in email service, so login can continue
+      });
       
       return {
         message: 'OTP sent to your email',
@@ -141,7 +151,12 @@ export class AuthService {
     // Generate and send OTP for email verification
     const otp = this.generateOTP();
     await this.saveOTP(user.id, otp, 'registration');
-    await this.emailService.sendOTP(registerDto.email, otp);
+    
+    // Send OTP asynchronously to prevent timeout
+    this.emailService.sendOTP(registerDto.email, otp).catch(error => {
+      console.error('Failed to send registration OTP email:', error.message);
+      // OTP is already logged in email service, so registration can continue
+    });
 
     return {
       message: 'Registration successful. Please verify your email with the OTP sent.',
@@ -262,7 +277,12 @@ export class AuthService {
     // Generate and send new OTP
     const otp = this.generateOTP();
     await this.saveOTP(userId, otp, purpose);
-    await this.emailService.sendOTP(user.email, otp);
+    
+    // Send OTP asynchronously to prevent timeout
+    this.emailService.sendOTP(user.email, otp).catch(error => {
+      console.error('Failed to send resend OTP email:', error.message);
+      // OTP is already logged in email service, so resend can continue
+    });
 
     return {
       message: 'New OTP sent to your email',
