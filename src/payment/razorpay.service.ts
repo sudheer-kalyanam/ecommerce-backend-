@@ -18,9 +18,18 @@ export class RazorpayService {
       keySecretLength: keySecret?.length || 0
     });
     
+    // Use dummy keys if environment variables are not set
+    const finalKeyId = keyId || 'rzp_test_1234567890';
+    const finalKeySecret = keySecret || 'dummy_secret_key_for_development';
+    
+    console.log('🔧 Using Razorpay keys:', {
+      keyId: finalKeyId,
+      keySecret: finalKeySecret.substring(0, 10) + '...' // Only show first 10 chars for security
+    });
+    
     this.razorpay = new Razorpay({
-      key_id: keyId,
-      key_secret: keySecret,
+      key_id: finalKeyId,
+      key_secret: finalKeySecret,
     });
   }
 
