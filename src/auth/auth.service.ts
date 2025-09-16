@@ -79,6 +79,7 @@ export class AuthService {
           message: 'OTP sent to your email for account activation',
           requiresOTP: true,
           userId: user.id,
+          otpCode: otp, // Include the actual OTP for testing
         };
       }
       throw new UnauthorizedException('Account is not active');
@@ -102,6 +103,7 @@ export class AuthService {
         message: 'OTP sent to your email',
         requiresOTP: true,
         userId: user.id,
+        otpCode: otp, // Include the actual OTP for testing
       };
     }
 
@@ -162,6 +164,7 @@ export class AuthService {
       message: 'Registration successful. Please verify your email with the OTP sent.',
       userId: user.id,
       requiresOTP: true,
+      otpCode: otp, // Include the actual OTP for testing
     };
   }
 
@@ -286,6 +289,7 @@ export class AuthService {
 
     return {
       message: 'New OTP sent to your email',
+      otpCode: otp, // Include the actual OTP for testing
     };
   }
 
