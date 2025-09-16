@@ -10,7 +10,6 @@ async function bootstrap() {
   const app = await NestFactory.create<NestExpressApplication>(AppModule);
   const configService = app.get(ConfigService);
 
-  // Upload files are served via UploadController at /api/v1/uploads/:filename
 
   // Global validation pipe
   app.useGlobalPipes(
@@ -26,9 +25,10 @@ async function bootstrap() {
 
   // CORS configuration
   app.enableCors({
-    origin: configService.get('CORS_ORIGIN') || 'http://localhost:3001',
+    origin: '*',
     credentials: true,
   });
+  
 
   // Global prefix
   app.setGlobalPrefix('api/v1');
